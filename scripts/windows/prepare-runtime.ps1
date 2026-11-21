@@ -22,10 +22,19 @@ try {
     Invoke-WebRequest -UseBasicParsing -TimeoutSec 90 `
         -Uri "https://api.nuget.org/v3-flatcontainer/python/$version/python.$version.nupkg" `
         -OutFile $archive
-    if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne $expectedHash) {
+    $sha256 = [Security.Cryptography.SHA256]::Create()
+    $stream = [IO.File]::OpenRead($archive)
+    try {
+        $hash = [BitConverter]::ToString($sha256.ComputeHash($stream)).Replace('-', '')
+    } finally {
+        $stream.Dispose()
+        $sha256.Dispose()
+    }
+    if ($hash -ne $expectedHash) {
         throw 'The downloaded Python package did not match its expected SHA-256.'
     }
-    Expand-Archive -LiteralPath $archive -DestinationPath $expanded -Force
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    [IO.Compression.ZipFile]::ExtractToDirectory($archive, $expanded)
     $tools = Join-Path $expanded 'tools'
     $python = Join-Path $tools 'python.exe'
     & $python -I -m pip --isolated --log $log install --no-user --no-cache-dir --no-input `
