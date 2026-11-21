@@ -8,38 +8,30 @@ $ProgressPreference = 'SilentlyContinue'
 $work = Split-Path -Parent $Wheel
 $runtime = Join-Path $work 'runtime'
 $stage = Join-Path $work ([guid]::NewGuid().ToString('N'))
-$archive = Join-Path $stage 'python.zip'
+$archive = Join-Path $work 'python-runtime.zip'
 $expanded = Join-Path $stage 'python-package'
 $log = Join-Path ([IO.Path]::GetTempPath()) 'SentinelAI-Setup.log'
 $version = '3.13.17'
-$expectedHash = 'DCE409744B088F94C6E37BA41F8100C384C27E029E843237364C602D30D475E5'
 
 try {
     if (Test-Path -LiteralPath $runtime -PathType Container) { exit 0 }
     New-Item -ItemType Directory -Path $stage | Out-Null
     Set-Content -LiteralPath $log -Value "Preparing SentinelAI with Python $version"
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    Invoke-WebRequest -UseBasicParsing -TimeoutSec 90 `
-        -Uri "https://api.nuget.org/v3-flatcontainer/python/$version/python.$version.nupkg" `
-        -OutFile $archive
-    $sha256 = [Security.Cryptography.SHA256]::Create()
-    $stream = [IO.File]::OpenRead($archive)
-    try {
-        $hash = [BitConverter]::ToString($sha256.ComputeHash($stream)).Replace('-', '')
-    } finally {
-        $stream.Dispose()
-        $sha256.Dispose()
-    }
-    if ($hash -ne $expectedHash) {
-        throw 'The downloaded Python package did not match its expected SHA-256.'
-    }
+    # The Setup download page verifies each archive before this step runs.
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     [IO.Compression.ZipFile]::ExtractToDirectory($archive, $expanded)
     $tools = Join-Path $expanded 'tools'
     $python = Join-Path $tools 'python.exe'
-    & $python -I -m pip --isolated --log $log install --no-user --no-cache-dir --no-input `
-        --disable-pip-version-check --only-binary=:all: --index-url https://pypi.org/simple "$Wheel[ml]"
-    if ($LASTEXITCODE -ne 0) { throw "Installing SentinelAI dependencies failed ($LASTEXITCODE)." }
+    $arguments = '-I -m pip --isolated --log "' + $log + '" install --no-user ' +
+        '--no-index --no-cache-dir --no-input --no-compile --disable-pip-version-check ' +
+        '--only-binary=:all: --find-links "' + $work + '" "' + $Wheel + '[ml]"'
+    $process = Start-Process -FilePath $python -ArgumentList $arguments -PassThru -WindowStyle Hidden
+    if (-not $process.WaitForExit(90000)) {
+        $process.Kill()
+        $process.WaitForExit()
+        throw 'Preparing the downloaded packages exceeded 90 seconds.'
+    }
+    if ($process.ExitCode -ne 0) { throw "Installing SentinelAI dependencies failed ($($process.ExitCode))." }
     Move-Item -LiteralPath $tools -Destination $runtime
 } catch {
     Add-Content -LiteralPath $log -Value $_.Exception.Message

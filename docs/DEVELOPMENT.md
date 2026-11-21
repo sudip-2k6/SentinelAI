@@ -18,12 +18,17 @@ On Windows, the symlink test skips if the account lacks symlink creation privile
 ## Windows packaging
 
 To build the per-user Windows installer, install Inno Setup 6.4 or later
-and run `./scripts/build_installer.ps1` using Python 3.12 or 3.13. The
-installer in `dist/installer` contains the application wheel. On first
-install it fetches the hash-pinned Python runtime from NuGet and installs
-dependencies from PyPI into the application's own runtime directory.
+and run `./scripts/build_installer.ps1` with Windows x64 Python 3.13. The
+installer in `dist/installer` contains the application wheel. Setup downloads
+the Python runtime from NuGet and the resolved wheels from PyPI on a
+cancellable progress page, verifies their hashes, and installs them locally.
 The Windows installer workflow tests setup, an installed scan, and uninstall
 before publishing the installer and checksum from a version tag.
+
+To sign a local build, pass `-SigningCertificateThumbprint` for a trusted
+code-signing identity available to Windows SignTool. Use `-SignTool` to specify
+its path if needed. The script timestamps the signature and verifies it.
+[Microsoft SmartScreen reputation guidance](https://learn.microsoft.com/windows/apps/package-and-deploy/smartscreen-reputation)
 
 Run on 64-bit Windows with the environment activated.
 

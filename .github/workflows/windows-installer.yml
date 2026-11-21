@@ -34,7 +34,9 @@ jobs:
           $target = Join-Path $env:RUNNER_TEMP 'SentinelAI installer smoke'
           $log = Join-Path $env:RUNNER_TEMP 'sentinel-installer.log'
           $args = @('/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', ('/DIR="' + $target + '"'), ('/LOG="' + $log + '"'))
+          $installTime = [Diagnostics.Stopwatch]::StartNew()
           $result = Start-Process $setup -ArgumentList $args -Wait -PassThru -WindowStyle Hidden
+          Write-Host "Setup completed in $([math]::Round($installTime.Elapsed.TotalSeconds, 1)) seconds."
           if ($result.ExitCode -ne 0) {
             Get-Content -LiteralPath $log -Tail 75
             $details = Join-Path ([IO.Path]::GetTempPath()) 'SentinelAI-Setup.log'
@@ -43,6 +45,7 @@ jobs:
           }
           $desktop = Join-Path $target 'runtime/pythonw.exe'
           if (-not (Test-Path -LiteralPath $desktop)) { throw 'Desktop launcher missing.' }
+          if (Get-ChildItem (Join-Path $target 'runtime/Lib/site-packages') -Filter 'pyside6_addons-*') { throw 'The installer included unused Qt add-ons.' }
           & (Join-Path $target 'runtime/python.exe') -I -m app --smoke-test --data-dir (Join-Path $env:RUNNER_TEMP 'SentinelAI scan smoke')
           if ($LASTEXITCODE -ne 0) { throw 'Installed application smoke test failed.' }
           $result = Start-Process (Join-Path $target 'unins000.exe') -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART' -Wait -PassThru -WindowStyle Hidden
@@ -77,4 +80,4 @@ jobs:
         run: |
           gh release create "$RELEASE_TAG" installer/* --repo "$GITHUB_REPOSITORY" \
             --verify-tag --title "SentinelAI $RELEASE_TAG" --latest \
-            --notes "Download SentinelAI-Setup-x64.exe for Windows 10 or 11 (x64). Setup installs for your Windows account and downloads dependencies on first install. The installer is unsigned. A SHA-256 checksum is included."
+            --notes "Download SentinelAI-Setup-x64.exe for Windows 10 or 11 (x64). Setup shows download progress and lets you cancel downloads. The installer is unsigned. A SHA-256 checksum is included."

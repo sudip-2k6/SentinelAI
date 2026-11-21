@@ -34,8 +34,9 @@ persistent storage, and troubleshooting.
 **[Download SentinelAI Setup for Windows x64](https://github.com/sudip-2k6/SentinelAI/releases/latest/download/SentinelAI-Setup-x64.exe)**
 
 Run the installer and launch **SentinelAI** from the Start menu. Setup installs
-for your Windows account and downloads its runtime and dependencies on the first
-install. It includes an uninstaller in **Settings → Apps**. The installer is
+for your Windows account. Setup shows download progress and lets you cancel
+while it downloads the runtime and dependencies. It includes an uninstaller in
+**Settings → Apps**. The installer is
 unsigned. The [release page](https://github.com/sudip-2k6/SentinelAI/releases/latest)
 includes a SHA-256 checksum.
 

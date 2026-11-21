@@ -39,12 +39,51 @@ Filename: "{app}\runtime\pythonw.exe"; Parameters: "-I -m app"; WorkingDir: "{ap
 Type: filesandordirs; Name: "{app}\runtime"
 
 [Code]
+var
+  DownloadPage: TDownloadWizardPage;
+  DownloadsReady: Boolean;
+
+procedure InitializeWizard;
+begin
+  DownloadPage := CreateDownloadPage('Downloading SentinelAI components',
+    'Setup downloads the runtime and dependencies before installing.', nil);
+  DownloadPage.ShowBaseNameInsteadOfUrl := True;
+end;
+
+function NextButtonClick(CurPageID: Integer): Boolean;
+begin
+  Result := True;
+  if (CurPageID <> wpReady) or DownloadsReady then
+    exit;
+
+  DownloadPage.Clear;
+  DownloadPage.Add('https://api.nuget.org/v3-flatcontainer/python/3.13.17/python.3.13.17.nupkg',
+    'python-runtime.zip', 'DCE409744B088F94C6E37BA41F8100C384C27E029E843237364C602D30D475E5');
+#include DownloadsFile
+  DownloadPage.Show;
+  try
+    try
+      DownloadPage.Download;
+      DownloadsReady := True;
+    except
+      Result := False;
+      Log('Download stopped: ' + GetExceptionMessage);
+      if not DownloadPage.AbortedByUser then
+        SuppressibleMsgBox('Setup could not download its components. ' + GetExceptionMessage,
+          mbError, MB_OK, IDOK);
+    end;
+  finally
+    DownloadPage.Hide;
+  end;
+end;
+
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 var
   Parameters: String;
   ResultCode: Integer;
 begin
   Result := '';
+  WizardForm.PreparingLabel.Caption := 'Preparing downloaded components locally. This step uses no network.';
   ExtractTemporaryFile('prepare-runtime.ps1');
   ExtractTemporaryFile('{#WheelName}');
   Parameters := '-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "' +
@@ -54,6 +93,6 @@ begin
     Parameters, ExpandConstant('{tmp}'), SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     Result := 'Setup could not start PowerShell.'
   else if ResultCode <> 0 then
-    Result := 'Setup could not prepare the runtime. Check your internet connection and see ' +
+    Result := 'Setup could not prepare the downloaded components. See ' +
       GetEnv('TEMP') + '\SentinelAI-Setup.log for details.';
 end;
