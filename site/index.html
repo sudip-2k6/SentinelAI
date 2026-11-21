@@ -4,82 +4,107 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="SentinelAI is an open-source desktop tool for offline analysis of Windows PE and Linux ELF executables.">
-  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080a0f">
   <title>SentinelAI — Offline executable analysis</title>
   <link rel="icon" href="mark.png" type="image/png">
   <link rel="stylesheet" href="site.css">
+  <script src="site.js" defer></script>
 </head>
-<body>
+<body id="top">
   <a class="skip" href="#main">Skip to content</a>
   <header class="wrap mast">
-    <a class="brand" href="./"><img src="mark.png" width="32" height="32" alt="">SentinelAI</a>
+    <a class="brand" href="#top"><img src="mark.png" width="34" height="34" alt="">Sentinel<span>AI</span></a>
     <nav aria-label="Main navigation">
-      <a href="#features">Features</a>
+      <a href="#desktop">Desktop</a>
       <a href="#setup">Setup</a>
-      <a href="https://github.com/sudip-2k6/SentinelAI">GitHub</a>
+      <a class="nav-source" href="https://github.com/sudip-2k6/SentinelAI">GitHub</a>
     </nav>
   </header>
   <main id="main">
     <section class="wrap hero" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="platforms">Windows PE <span></span> Linux ELF</p>
-        <h1 id="hero-title">Inspect executables locally.</h1>
-        <p class="lede">Scan a file or folder, review executable metadata and model evidence, and keep a searchable history on your device.</p>
+        <p class="eyebrow"><span class="signal"></span> Offline executable analysis</p>
+        <h1 id="hero-title">See what’s<br><em>inside.</em></h1>
+        <p class="lede">Inspect Windows and Linux executables. Read the headers, examine the sections, and keep your scan history on your device.</p>
         <div class="actions">
-          <a class="button primary" href="#setup">Get started</a>
-          <a class="button" href="https://github.com/sudip-2k6/SentinelAI">View source on GitHub</a>
+          <a class="button primary" href="#setup">Get SentinelAI</a>
+          <a class="button quiet" href="https://github.com/sudip-2k6/SentinelAI">View source</a>
         </div>
       </div>
-      <figure class="preview">
-        <img src="dashboard.png" width="1200" height="780" alt="SentinelAI dashboard in dark mode with a scan activity chart, analysis coverage, and a recent scans table.">
-        <figcaption>SentinelAI showing sample scan history.</figcaption>
+
+      <div class="lab" aria-labelledby="lab-title">
+        <div class="lab-top">
+          <h2 id="lab-title">Executable anatomy</h2>
+          <button class="motion" type="button" hidden>Pause motion</button>
+        </div>
+        <div class="stage">
+          <canvas class="scan-art" aria-hidden="true"></canvas>
+          <span class="stage-label stage-format" aria-hidden="true">PE / COFF</span>
+          <span class="stage-label stage-local" aria-hidden="true">STATIC ANALYSIS</span>
+        </div>
+        <div class="lab-data">
+          <div class="sample-top">
+            <span>Sample executable</span>
+            <div class="sample-switch" role="group" aria-label="Sample format">
+              <button type="button" data-sample="pe" aria-pressed="true">PE</button>
+              <button type="button" data-sample="elf" aria-pressed="false">ELF</button>
+            </div>
+          </div>
+          <dl class="sample-facts" aria-live="polite">
+            <div><dt>File</dt><dd data-field="file">viewer.exe</dd></div>
+            <div><dt>Sections</dt><dd data-field="sections">6</dd></div>
+            <div><dt>Architecture</dt><dd data-field="arch">x86-64</dd></div>
+            <div><dt>Entry point</dt><dd data-field="entry">0x00001420</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section id="desktop" class="desktop wrap reveal" aria-labelledby="desktop-title">
+      <div class="desktop-copy">
+        <h2 id="desktop-title">Built for the desktop.</h2>
+        <p>Scan a file or folder without running the executable. Open individual results to inspect imports, fingerprints, and section entropy.</p>
+        <ul class="capabilities">
+          <li><strong>Search past scans</strong><span>Look up a file by path, status, or exact SHA-256.</span></li>
+          <li><strong>Review model evidence</strong><span>Compatible local models can add calibrated scores.</span></li>
+          <li><strong>Export your findings</strong><span>Save a result as an HTML or PDF report.</span></li>
+        </ul>
+      </div>
+      <figure class="desktop-image">
+        <img src="dashboard.png" width="1200" height="780" loading="lazy" alt="SentinelAI desktop dashboard showing scan activity, analysis coverage, and recent results.">
+        <figcaption>SentinelAI desktop with sample scan history</figcaption>
       </figure>
     </section>
 
-    <section id="features" class="wrap section" aria-labelledby="features-title">
-      <h2 id="features-title">From file to findings</h2>
-      <div class="columns">
-        <article>
-          <h3>Inspect a file or folder</h3>
-          <p>Review SHA-256 fingerprints, headers, sections, imports, and entropy for supported executables.</p>
-        </article>
-        <article>
-          <h3>Review model evidence</h3>
-          <p>Add a compatible local model for calibrated scores and feature evidence. Scores help prioritize review.</p>
-        </article>
-        <article>
-          <h3>Find previous scans</h3>
-          <p>Search local history by path, status, or exact SHA-256. Open a result and export an HTML or PDF report.</p>
-        </article>
+    <section id="setup" class="wrap setup reveal" aria-labelledby="setup-title">
+      <div class="setup-head">
+        <h2 id="setup-title">Run it your way.</h2>
+        <a href="https://github.com/sudip-2k6/SentinelAI/releases">GitHub releases</a>
       </div>
-    </section>
-
-    <section id="setup" class="wrap section install" aria-labelledby="setup-title">
-      <h2 id="setup-title">Set up SentinelAI</h2>
-      <div class="columns">
+      <div class="install-grid">
         <article>
           <h3>Windows</h3>
-          <p>Run on Windows 10 or 11 x64. The guide covers installing from source and building the portable app.</p>
-          <a href="https://github.com/sudip-2k6/SentinelAI#start-on-windows-10-or-11">Windows setup guide</a>
+          <p>Run the desktop app from source on Windows 10 or 11, or build the portable version.</p>
+          <a href="https://github.com/sudip-2k6/SentinelAI#start-on-windows-10-or-11">Windows setup</a>
         </article>
         <article>
           <h3>Linux</h3>
-          <p>Use Python 3.12 or 3.13 with the Qt libraries for your distribution. Native build instructions are included.</p>
-          <a href="https://github.com/sudip-2k6/SentinelAI#start-on-linux">Linux setup guide</a>
+          <p>Install the Qt libraries for your distribution, then launch SentinelAI from a Python environment.</p>
+          <a href="https://github.com/sudip-2k6/SentinelAI#start-on-linux">Linux setup</a>
         </article>
         <article>
           <h3>Docker</h3>
-          <p>Build the container locally and open the desktop in your browser. History and settings persist in a Docker volume.</p>
-          <a href="https://github.com/sudip-2k6/SentinelAI/blob/main/docs/DOCKER.md">Docker setup guide</a>
+          <p>Run the desktop in a local browser with Docker Compose and keep scan history in a named volume.</p>
+          <a href="https://github.com/sudip-2k6/SentinelAI/blob/main/docs/DOCKER.md">Docker setup</a>
         </article>
       </div>
-      <p class="release-links"><a href="https://github.com/sudip-2k6/SentinelAI/releases">GitHub releases</a> <a href="https://github.com/sudip-2k6/SentinelAI/blob/main/docs/MODEL_CARD.md">Model evaluation</a></p>
     </section>
   </main>
   <footer class="wrap footer">
-    <span>SentinelAI · MIT-licensed source</span>
+    <a class="brand" href="#top"><img src="mark.png" width="30" height="30" alt="">Sentinel<span>AI</span></a>
     <nav aria-label="Project links">
-      <a href="https://github.com/sudip-2k6/SentinelAI/blob/main/LICENSE">License</a>
+      <a href="https://github.com/sudip-2k6/SentinelAI/blob/main/docs/MODEL_CARD.md">Model evaluation</a>
+      <a href="https://github.com/sudip-2k6/SentinelAI/blob/main/LICENSE">MIT license</a>
       <a href="https://github.com/sudip-2k6/SentinelAI/issues">Issues</a>
     </nav>
   </footer>
