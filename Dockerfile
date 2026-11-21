@@ -8,6 +8,7 @@ RUN apt-get update \
         tigervnc-standalone-server tigervnc-tools websockify x11-utils \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --create-home --uid 10001 sentinel \
+    && install -d -m 1777 /tmp/.X11-unix \
     && install -d -m 0700 -o sentinel -g sentinel /home/sentinel/.local/share/SentinelAI
 
 WORKDIR /opt/sentinelai

@@ -11,4 +11,4 @@ out of public issues and pull requests.
 - Run Ruff, mypy, and pytest before opening a pull request. For UI changes,
   include screenshots or notes for both themes when relevant.
 
-See [the security model and disclosure guidance](docs/SECURITY.md).
+See [the scanner's security model](docs/SECURITY.md).

@@ -61,7 +61,7 @@ jobs:
       - name: Run executable analysis inside the image
         run: |
           docker compose exec -T -e QT_QPA_PLATFORM=offscreen sentinelai \
-            python -m app --smoke-test --data-dir /tmp/sentinelai-smoke
+            /usr/local/bin/python3.12 -m app --smoke-test --data-dir /tmp/sentinelai-smoke
       - name: Print desktop logs on failure
         if: failure()
         run: docker compose logs --no-color
