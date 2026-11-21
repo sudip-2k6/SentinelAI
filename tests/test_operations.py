@@ -14,6 +14,26 @@ from app.quarantine.service import Quarantine
 from tests.fixtures import elf_fixture
 
 
+def write_owned_file(path: Path, payload: bytes) -> None:
+    path.write_bytes(payload)
+    if os.name == "nt":
+        import win32security
+
+        from app.platforms.windows.access import current_sid, is_owner
+
+        # Elevated Windows runners may assign new files to the Administrators group.
+        if not is_owner(path):
+            win32security.SetNamedSecurityInfo(
+                str(path),
+                win32security.SE_FILE_OBJECT,
+                win32security.OWNER_SECURITY_INFORMATION,
+                current_sid(),
+                None,
+                None,
+                None,
+            )
+
+
 def test_confirmed_quarantine_duplicate_restore_and_protected_paths(tmp_path: Path) -> None:
     data = tmp_path / "app"
     data.mkdir(mode=0o700)
@@ -21,7 +41,7 @@ def test_confirmed_quarantine_duplicate_restore_and_protected_paths(tmp_path: Pa
     service = Quarantine(data, history, home=tmp_path)
     sample = tmp_path / "sample.elf"
     payload = elf_fixture()
-    sample.write_bytes(payload)
+    write_owned_file(sample, payload)
     digest = hashlib.sha256(payload).hexdigest()
     with pytest.raises(ValueError, match="explicit approval"):
         service.store(sample, digest)
@@ -48,7 +68,7 @@ def test_quarantine_recovery_and_integrity(tmp_path: Path) -> None:
     history = History(root)
     service = Quarantine(root, history, home=tmp_path)
     source = tmp_path / "example"
-    source.write_bytes(b"inert")
+    write_owned_file(source, b"inert")
     digest = hashlib.sha256(b"inert").hexdigest()
     entry = service.store(source, digest, confirmed=True)
     service._state(entry, "Staging")
