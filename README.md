@@ -1,6 +1,6 @@
 # SentinelAI
 
-[Project website](https://sudip-2k6.github.io/SentinelAI/) ·
+[Project website](https://sentinelai-site.vercel.app/) ·
 [GitHub releases](https://github.com/sudip-2k6/SentinelAI/releases) ·
 [Docker setup](docs/DOCKER.md) · [Contributing](CONTRIBUTING.md)
 

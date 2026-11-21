@@ -22,7 +22,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://sudip-2k6.github.io/SentinelAI/"
+Homepage = "https://sentinelai-site.vercel.app/"
 Repository = "https://github.com/sudip-2k6/SentinelAI"
 
 [project.optional-dependencies]
