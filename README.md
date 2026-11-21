@@ -29,9 +29,17 @@ persistent storage, and troubleshooting.
 
 ## Start on Windows 10 or 11
 
-If you have the Windows distribution, open `SentinelAI.exe` from the extracted folder.
-Keep the accompanying `_internal` directory next to the executable. For a source installation,
-use 64-bit Python 3.12 or 3.13 in PowerShell from the repository directory.
+**[Download SentinelAI Setup for Windows x64](https://github.com/sudip-2k6/SentinelAI/releases/latest/download/SentinelAI-Setup-x64.exe)**
+
+Run the installer and launch **SentinelAI** from the Start menu. Setup installs
+for your Windows account and downloads its runtime and dependencies on the first
+install. It includes an uninstaller in **Settings → Apps**. The installer is
+unsigned. The [release page](https://github.com/sudip-2k6/SentinelAI/releases/latest)
+includes a SHA-256 checksum.
+
+### Install from source
+
+Use 64-bit Python 3.12 or 3.13 in PowerShell from the repository directory.
 
 ```powershell
 py -3.12 -m venv .venv

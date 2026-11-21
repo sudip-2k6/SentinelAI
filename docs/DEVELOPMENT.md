@@ -17,6 +17,14 @@ On Windows, the symlink test skips if the account lacks symlink creation privile
 
 ## Windows packaging
 
+To build the per-user Windows installer, install Inno Setup 6.4 or later
+and run `./scripts/build_installer.ps1` using Python 3.12 or 3.13. The
+installer in `dist/installer` contains the application wheel. On first
+install it fetches the hash-pinned Python runtime from NuGet and installs
+dependencies from PyPI into the application's own runtime directory.
+The Windows installer workflow tests setup, an installed scan, and uninstall
+before publishing the installer and checksum from a version tag.
+
 Run on 64-bit Windows with the environment activated.
 
 ```powershell
