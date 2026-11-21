@@ -112,9 +112,9 @@ LightGBM text plus a JSON manifest. Serialized Python objects are unnecessary.
 
 ## Install the release models
 
-The public Windows installer includes the inference runtime. The approved model bundle is a
-separate ZIP for users who already have a copy. It contains a `models` directory with one
-approved package for each format. Open SentinelAI once to create its application data
+[Download the approved PE and ELF models](https://github.com/sudip-2k6/SentinelAI/releases/download/v0.1.9/SentinelAI-0.1.2-models.zip).
+The ZIP contains one approved package for each format. The public Windows installer
+includes the inference runtime. Open SentinelAI once to create its application data
 directory, then close it. Extract the model ZIP into that directory so `models/pe` and
 `models/elf` are next to the settings and history. Keep any existing packages by moving
 them to a separate folder before installing these versions.
@@ -127,6 +127,10 @@ them to a separate folder before installing these versions.
 Open SentinelAI, go to **Models**, and select **Reload local models**. The Dashboard
 shows the formats that loaded. A new scan is required to produce scores for files
 scanned before the models were loaded.
+
+The [Windows release page](https://github.com/sudip-2k6/SentinelAI/releases/tag/v0.1.9)
+also includes a model checksum and the older 0.1.1 bundle for reproducing previous
+results. Install one bundle at a time.
 
 ## Behavioral reports and future training
 

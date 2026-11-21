@@ -12,6 +12,8 @@ counts. Each executable format can use an independently trained and approved loc
 A fresh installation runs in static-analysis mode. Optional model bundles enable scoring
 for supported formats. [Model installation](docs/DATASETS.md#install-the-release-models)
 
+[Download the approved PE and ELF models](https://github.com/sudip-2k6/SentinelAI/releases/download/v0.1.9/SentinelAI-0.1.2-models.zip)
+
 SentinelAI's source is available under the [MIT License](LICENSE).
 Clone the repository before choosing your setup.
 
