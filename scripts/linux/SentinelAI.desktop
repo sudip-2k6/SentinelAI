@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=SentinelAI
+Comment=Offline executable analysis
+Exec=SentinelAI
+Icon=sentinelai
+Terminal=false
+Categories=System;Security;

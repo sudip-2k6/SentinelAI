@@ -1,0 +1,22 @@
+services:
+  sentinelai:
+    build: .
+    init: true
+    ports:
+      - "127.0.0.1:6080:6080"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - sentinel-data:/home/sentinel/.local/share/SentinelAI
+      - ./samples:/samples:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "from urllib.request import urlopen; urlopen('http://127.0.0.1:6080/vnc.html', timeout=2).close()"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+
+volumes:
+  sentinel-data:

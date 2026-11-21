@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentinelai-desktop"
+version = "0.1.6"
+description = "Offline executable analysis and user-space monitoring"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "PySide6==6.8.3",
+    "pefile==2023.2.7",
+    "pyelftools==0.32",
+    "platformdirs==4.4.0",
+    "SQLAlchemy==2.0.43",
+    "psutil==7.1.0",
+    "watchdog==6.0.0",
+    "pywin32==311; sys_platform == 'win32'",
+]
+
+[project.urls]
+Homepage = "https://sudip-2k6.github.io/SentinelAI/"
+Repository = "https://github.com/sudip-2k6/SentinelAI"
+
+[project.optional-dependencies]
+ml = [
+    "lightgbm==4.6.0",
+    "orjson==3.11.3",
+    "numpy==2.2.6",
+    "scipy==1.15.3",
+    "scikit-learn==1.7.2",
+]
+dev = ["pytest==8.4.2", "ruff==0.13.3", "mypy==1.18.2"]
+build = ["pyinstaller==6.16.0", "pyinstaller-hooks-contrib==2025.9"]
+audit = ["lief==0.17.0"]
+
+[project.gui-scripts]
+sentinelai = "app.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = [".deps", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["app"]
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

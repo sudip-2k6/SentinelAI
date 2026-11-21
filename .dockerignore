@@ -1,0 +1,11 @@
+**
+!Dockerfile
+!README.md
+!LICENSE
+!pyproject.toml
+!app/
+!app/**
+**/__pycache__/
+**/*.py[cod]
+!docker/
+!docker/start-desktop.sh

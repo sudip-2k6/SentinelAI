@@ -1,0 +1,16 @@
+.deps/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+models/
+*.sqlite3*
+*.spec
+samples/
+.env
+.env.*

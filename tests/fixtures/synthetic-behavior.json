@@ -1,0 +1,9 @@
+{
+  "schema": "sentinel-behavior-v1",
+  "events": [
+    {"time_ms": 0, "pid": 1000, "category": "process"},
+    {"time_ms": 10, "pid": 1000, "category": "file"},
+    {"time_ms": 20, "pid": 1010, "category": "thread"},
+    {"time_ms": 32, "pid": 1000, "category": "network"}
+  ]
+}
