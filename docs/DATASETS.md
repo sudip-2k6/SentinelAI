@@ -112,7 +112,8 @@ LightGBM text plus a JSON manifest. Serialized Python objects are unnecessary.
 
 ## Install the release models
 
-Use SentinelAI 0.1.2 for the richer models. The model ZIP contains a `models` directory with one
+The public Windows installer includes the inference runtime. The approved model bundle is a
+separate ZIP for users who already have a copy. It contains a `models` directory with one
 approved package for each format. Open SentinelAI once to create its application data
 directory, then close it. Extract the model ZIP into that directory so `models/pe` and
 `models/elf` are next to the settings and history. Keep any existing packages by moving
@@ -123,7 +124,9 @@ them to a separate folder before installing these versions.
 | Windows | `%LOCALAPPDATA%\SentinelAI` |
 | Linux | `${XDG_DATA_HOME:-$HOME/.local/share}/SentinelAI` |
 
-Open SentinelAI, go to **Model Insights**, and select **Reload local models**.
+Open SentinelAI, go to **Models**, and select **Reload local models**. The Dashboard
+shows the formats that loaded. A new scan is required to produce scores for files
+scanned before the models were loaded.
 
 ## Behavioral reports and future training
 
