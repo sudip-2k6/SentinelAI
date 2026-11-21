@@ -12,6 +12,7 @@ try {
     $arguments = @(
         "-m", "PyInstaller", "--noconfirm", "--windowed", "--onedir", "--name", "SentinelAI",
         "--specpath", "build", "--workpath", "build/pyinstaller", "--distpath", $output,
+        "--add-data", "app/assets:app/assets", "--icon", "app/assets/sentinelai.ico",
         "--collect-binaries", "lightgbm", "--collect-data", "lightgbm", "--exclude-module", "pandas",
         "--exclude-module", "matplotlib", "--exclude-module", "IPython", "--exclude-module", "pytest",
         "--exclude-module", "tkinter", "app/__main__.py"

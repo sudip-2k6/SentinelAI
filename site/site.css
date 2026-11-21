@@ -26,9 +26,8 @@ nav { gap: clamp(.8rem, 2.8vw, 2.2rem); }
 nav a { color: var(--quiet); text-decoration: none; }
 nav a:hover { color: #f2f6ff; }
 .nav-source { padding: .58rem .94rem; border: 1px solid var(--edge); border-radius: .5rem; color: #edf1f9; }
-.brand { color: inherit; font-weight: 700; font-size: 1.23rem; text-decoration: none; letter-spacing: -.03em; }
-.brand img { margin-right: .56rem; }
-.brand span { color: var(--blue); }
+.brand { flex: 0 0 auto; }
+.brand img { display: block; border-radius: .4rem; }
 h1, h2, h3, p, figure, dl, dd { margin: 0; }
 h1, h2 { font-weight: 620; letter-spacing: -.055em; line-height: 1.03; }
 h1 { font-size: clamp(4.05rem, 7.55vw, 8rem); margin: 1rem 0 1.4rem; }
@@ -107,6 +106,7 @@ figcaption { color: var(--quiet); font-size: .85rem; margin-top: .65rem; }
   .wrap { width: calc(100% - 2rem); }
   .mast { min-height: 4.45rem; }
   .mast nav { gap: .7rem; font-size: .9rem; }
+  .mast .brand img { width: 130px; height: auto; }
   .mast nav a:first-child { display: none; }
   .footer { flex-wrap: wrap; }
   .footer nav { flex-wrap: wrap; }

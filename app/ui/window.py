@@ -14,7 +14,7 @@ from PySide6.QtCore import (
     QThreadPool,
     QTimer,
 )
-from PySide6.QtGui import QCloseEvent, QIcon, QResizeEvent
+from PySide6.QtGui import QCloseEvent, QIcon, QPixmap, QResizeEvent
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QApplication,
@@ -318,17 +318,16 @@ class Window(QMainWindow):
         nav = QHBoxLayout(top)
         nav.setContentsMargins(24, 9, 24, 9)
         nav.setSpacing(4)
-        brand = QHBoxLayout()
-        brand.setSpacing(8)
-        shield = icon("shield", colors(settings.theme)["action_text"], 19)
-        emblem = label("", "emblem")
-        emblem.setPixmap(shield)
-        emblem.setFixedSize(29, 29)
-        emblem.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.setWindowIcon(QIcon(icon("shield", colors(settings.theme)["action"], 24)))
-        brand.addWidget(emblem)
-        brand.addWidget(label("SentinelAI", "brand"))
-        nav.addLayout(brand)
+        assets = Path(__file__).resolve().parents[1] / "assets"
+        brand = label("")
+        brand.setAccessibleName("SentinelAI")
+        artwork = QPixmap(str(assets / "wordmark.png")).scaledToHeight(
+            72, Qt.TransformationMode.SmoothTransformation
+        )
+        artwork.setDevicePixelRatio(2)
+        brand.setPixmap(artwork)
+        self.setWindowIcon(QIcon(str(assets / "sentinelai.ico")))
+        nav.addWidget(brand)
         nav.addSpacing(20)
         self.navigation = QButtonGroup(self)
         self.nav_buttons: dict[str, QPushButton] = {}

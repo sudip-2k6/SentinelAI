@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sentinelai-desktop"
-version = "0.1.7"
+version = "0.1.8"
 description = "Offline executable analysis and user-space monitoring"
 readme = "README.md"
 license = "MIT"
@@ -42,6 +42,9 @@ sentinelai = "app.__main__:main"
 
 [tool.setuptools.packages.find]
 include = ["app*"]
+
+[tool.setuptools.package-data]
+app = ["assets/*.png", "assets/*.ico"]
 
 [tool.ruff]
 target-version = "py312"

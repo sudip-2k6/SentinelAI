@@ -1,5 +1,7 @@
 # SentinelAI
 
+![SentinelAI — AI Malware Detection](site/brand.png)
+
 [Project website](https://sentinelai-site.vercel.app/) ·
 [GitHub releases](https://github.com/sudip-2k6/SentinelAI/releases) ·
 [Docker setup](docs/DOCKER.md) · [Contributing](CONTRIBUTING.md)

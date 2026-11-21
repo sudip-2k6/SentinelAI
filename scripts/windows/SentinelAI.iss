@@ -12,7 +12,8 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0.10240
 WizardStyle=modern
-UninstallDisplayIcon={app}\runtime\pythonw.exe
+UninstallDisplayIcon={app}\sentinelai.ico
+SetupIconFile=..\..\app\assets\sentinelai.ico
 OutputDir={#OutputDirectory}
 OutputBaseFilename=SentinelAI-Setup-x64
 Compression=lzma2
@@ -22,13 +23,14 @@ SolidCompression=yes
 Name: desktopicon; Description: "Create a desktop shortcut"; Flags: unchecked
 
 [Files]
+Source: "..\..\app\assets\sentinelai.ico"; DestDir: "{app}"
 Source: "{#WheelDirectory}\{#WheelName}"; Flags: dontcopy
 Source: "prepare-runtime.ps1"; Flags: dontcopy
 Source: "{tmp}\runtime\*"; DestDir: "{app}\runtime"; ExternalSize: 400000000; Flags: external recursesubdirs createallsubdirs ignoreversion
 
 [Icons]
-Name: "{autoprograms}\SentinelAI"; Filename: "{app}\runtime\pythonw.exe"; Parameters: "-I -m app"; WorkingDir: "{app}"
-Name: "{autodesktop}\SentinelAI"; Filename: "{app}\runtime\pythonw.exe"; Parameters: "-I -m app"; WorkingDir: "{app}"; Tasks: desktopicon
+Name: "{autoprograms}\SentinelAI"; Filename: "{app}\runtime\pythonw.exe"; Parameters: "-I -m app"; WorkingDir: "{app}"; IconFilename: "{app}\sentinelai.ico"
+Name: "{autodesktop}\SentinelAI"; Filename: "{app}\runtime\pythonw.exe"; Parameters: "-I -m app"; WorkingDir: "{app}"; IconFilename: "{app}\sentinelai.ico"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\runtime\pythonw.exe"; Parameters: "-I -m app"; WorkingDir: "{app}"; Description: "Launch SentinelAI"; Flags: postinstall nowait skipifsilent
